@@ -5,6 +5,7 @@
 #date        :20100210
 #version     :9.05
 #usage       :bash 20100210_Jogo_da_velha.sh
+#license     :MIT
 jogador=()
 jogador_da_vez='X'
 tabuleiro=(- - - - - - - - -)
