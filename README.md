@@ -1,1 +1,1 @@
-# Here is some old code I've written for fun along the years
+# Here is some old code I have written for fun along the years
