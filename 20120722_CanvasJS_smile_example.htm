@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="title" content="CanvasJS smile example">
+<meta name="author" content="André Augusto Tissot">
+<meta name="copyright" content="MIT license">
+<title>CanvasJS smile example</title>
+</head>
+<body>
 <canvas id="myCanvas" width="550" height="550"></canvas>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript">
@@ -33,7 +42,7 @@ Smile = {
       context.arc(size / 2.083, size / 2.068, size / 2.165, 0, Math.PI*2, true);
       context.closePath();
       context.fill();
-      
+
       // Círculo interior amarelo
       gradient = context.createRadialGradient(size / 1.833, size / 1.637, size / 55, size / 1.897, size / 1.897, size / 1.528);
       gradient.addColorStop(0, '#ffd200');
@@ -136,3 +145,5 @@ $(window).keyup(function(e){
   }
 });
 </script>
+</body>
+</html>
