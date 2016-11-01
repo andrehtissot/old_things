@@ -1,0 +1,80 @@
+#!/usr/local/bin/ruby
+
+require 'find'
+
+STARTED_AT = Time.now.strftime("%Y%m%d%H%M%S")
+thread_id = (rand*1000000).to_i
+temp_dir_name = "#{File.expand_path(File.dirname(__FILE__))}/comp_tmp_#{STARTED_AT}_#{thread_id}"
+ROOT_PATH = File.expand_path "#{File.expand_path(File.dirname(__FILE__))}/../../"
+file_counter = 0;
+
+Dir.mkdir temp_dir_name;
+
+require "#{File.expand_path(File.dirname(__FILE__))}/libs/remove_comments"
+
+=begin
+puts 'Output:'
+print remove_comment '/fake.js'
+=end
+=begin
+temp_file = File.new "#{temp_dir_name}/temp#{file_counter}.js", 'w+'
+temp_file.write remove_comment '/framework/core/libs/jquery.mobile/jquery.mobile.js'
+temp_file.close
+=end
+=begin
+puts 'Output:'
+print remove_comment_css(['/framework/core/libs/jquery.mobile/jquery.mobile.css'])
+=end
+
+#Here we united the already minified core js's
+temp_file = File.new "#{temp_dir_name}/temp#{file_counter}.js", 'w+'
+
+temp_file.write remove_comment_js ['/framework/core/libs/jquery.js', 
+                           '/framework/core/libs/jquery.mobile/jquery.mobile.js']
+
+temp_file.close
+
+#Here we united and minified the core js's
+temp_file = File.new "#{temp_dir_name}/temp#{(file_counter+=1)}.grp.js", 'w+'
+
+temp_file.write remove_comment_js ['/framework/core/model.js',
+                          '/framework/core/language.js',
+                          '/framework/core/languages/en.js']
+temp_file.close
+
+system "java -jar #{File.expand_path(File.dirname(__FILE__))}/libs/yuicompressor-2.4.6.jar #{temp_dir_name}/temp#{file_counter}.grp.js -o #{temp_dir_name}/temp#{file_counter}.js"
+
+File.unlink "#{temp_dir_name}/temp#{file_counter}.grp.js"
+
+#Here we united the already minified core css and made them executable
+temp_file = File.new "#{temp_dir_name}/temp#{(file_counter+=1)}.js", 'w+'
+
+temp_file.write "\n$('head').append(\"<style>#{remove_comment_css(['/framework/core/libs/jquery.mobile/jquery.mobile.css']).gsub('\\', '\\\\').gsub('"', '\\"').gsub("\n",'')}</style>\");"
+
+temp_file.close
+
+#Here we united all three files in one javascript
+(file_counter+=1).times do |counter|
+  system "cat #{temp_dir_name}/temp#{counter}.js >> #{temp_dir_name}/temp#{file_counter}.js"
+end
+
+#Here we gziped the big js file
+system "gzip -c #{temp_dir_name}/temp#{file_counter}.js > #{temp_dir_name}/temp#{(file_counter+=1)}.js.gz"
+
+
+
+
+
+
+=begin
+#FOR THE FUTURE!
+Find.find("#{ROOT_PATH}/framework/core") do |entry|
+  if entry.match(/\.js/i) && File.file?(entry)
+    unless entry.match /\/(bootstrap\.js)?(gzip\.js)?(jquery\.js)?(jquery.mobile\.js)?$/i
+      puts entry 
+    end
+  end
+end
+=end
+
+

@@ -1,0 +1,62 @@
+/* Here is the standard application style */
+
+.margin-left {
+  margin-left: 50px;
+}
+
+.alert {
+  border-color: #F00; 
+  border-width: 2px;
+  border-style: solid;
+}
+
+.game-square {
+  position: fixed;
+}
+
+.alert {
+  border-color: #F00; 
+  border-width: 2px;
+  border-style: solid;
+}
+
+#checkerboard {
+  position: fixed;
+  border: 2px black solid;
+}
+
+.players {
+  font-weight: bold;
+}
+
+#playerOne {
+  position: absolute;
+  left: 3%;
+}
+
+#playerTwo {
+  position: fixed;
+  float: right;
+  right: 3%;
+  bottom: 45px;
+}
+
+div.game-piece-dark {
+  background-position: 0 33%;
+}
+
+div.game-piece-king {
+  background-position: 0 66%;
+}
+
+div.game-piece-dark-king {
+  background-position: 0 100%;
+}
+
+.game-piece-selected {
+  box-shadow:0px 0px 10px 8px #FFF;border-radius:60px;
+}
+
+.center {
+  text-align: center;
+}

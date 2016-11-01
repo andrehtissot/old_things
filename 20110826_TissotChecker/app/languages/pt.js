@@ -1,0 +1,21 @@
+pt: {
+  'New Game'    : 'Novo Jogo',
+  'Score'       : 'Pontuação',
+  'Instructions': 'Instruções',
+  'Credits'     : 'Créditos',
+  'Options'     : 'Opções',
+  'Created by'  : 'Criado por',
+  'Back'        : 'Voltar',
+  'Languages'   : 'Idiomas',
+  'English'     : 'Inglês',
+  'Portuguese'  : 'Português',
+  'Instruction1': 'O objetivo é capturar ou imobilizar as peças do adversário;',
+  'Instruction2': 'A peça movimenta-se em diagonal, sobre as casas escuras, para a frente, e uma casa de cada vez;',
+  'Instruction3': 'A peça que atingir a oitava casa, parando ali, será promovida a "dama";',
+  'Instruction4': 'Como dama, a peça pode se mover em para frente e para trás;',
+  'Instruction5': 'Se no caminho há uma peça do oponente, a captura só poderá acontecer se na casa diagonal seguinte estiver vazia;',
+  'Instruction6': 'Após a primeira captura não obrigatória, o jogador é forçado a capturar todas as peças que aquela peça for capaz.',
+  'Player'      : 'Jogador',
+  'One'         : 'Um',
+  'Two'         : 'Dois'
+}
