@@ -1,0 +1,138 @@
+<canvas id="myCanvas" width="550" height="550"></canvas>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+var canvasTag=document.getElementById("myCanvas");
+var context=canvasTag.getContext("2d");
+var size = canvasTag.height < canvasTag.width ? canvasTag.height : canvasTag.width;
+var gradient = null;
+
+Smile = {
+//states: happy, blinking
+  state: 'happy',
+  body: {
+    draw: function(){
+      // Borda exterior preta
+      context.save();
+      context.fillStyle="#000";
+      context.beginPath();
+      context.arc(size / 2.083, size / 2.068, size / 2.115, 0, Math.PI*2, true);
+      context.closePath();
+      context.shadowColor = "rgba(0,0,0,0.7)";
+      context.shadowBlur = size / 30;
+      context.shadowOffsetX = size / 55;
+      context.shadowOffsetY = size / 36.667;
+      context.fill();
+      context.restore();
+
+      // Borda gradiente preto-cinza exterior
+      gradient = context.createLinearGradient(size / 5.5, size / 27.5, size / 6.875, size / 0.55);
+      gradient.addColorStop(0,"#000");
+      gradient.addColorStop(1,"#484848");
+      context.fillStyle = gradient;
+      context.beginPath();
+      context.arc(size / 2.083, size / 2.068, size / 2.165, 0, Math.PI*2, true);
+      context.closePath();
+      context.fill();
+      
+      // Círculo interior amarelo
+      gradient = context.createRadialGradient(size / 1.833, size / 1.637, size / 55, size / 1.897, size / 1.897, size / 1.528);
+      gradient.addColorStop(0, '#ffd200');
+      gradient.addColorStop(0.75, '#fff4c9');
+      gradient.addColorStop(1, 'rgba(255,254,249,0)');
+      context.fillStyle=gradient;
+      context.beginPath();
+      context.arc(size / 2.083, size / 2.068, size / 2.2, 0, Math.PI*2, true);
+      context.closePath();
+      context.fill();
+    }
+  },
+  mouth:{
+    draw: function(){
+      // Sorriso preto
+      context.save();
+      context.strokeStyle="#111";
+      context.scale(1.2, 1);
+      context.beginPath();
+      context.arc((size / 2.083) / 1.2, size / 2.292, size / 3.667, -0.14, Math.PI*1.05, false);
+      context.lineWidth = size / 27.5;
+      context.lineCap = "round";
+      context.stroke();
+      context.restore();
+    }
+  },
+  eyes: {
+    rightEye:{
+      height: 1.4,
+      //height: 1.4,
+      getPosition: function(){
+        return size / (2.75 * this.height);
+        //return size / 3.85;
+      }
+    },
+    draw: function(){
+      // Olho preto esquerdo
+      context.save();
+      context.fillStyle="#111";
+      context.scale(1, 1.4);
+      context.beginPath();
+      context.arc(size / 2.75, size / 3.85, size / 18.333, -0.14, Math.PI*2);
+      context.fill();
+      context.restore();
+
+      // Olho preto direito
+      context.save();
+      context.fillStyle="#111";
+      context.scale(1, this.rightEye.height);
+      context.beginPath();
+      context.arc(size / 1.667, this.rightEye.getPosition(), size / 18.333, -0.14, Math.PI*2);
+      context.fill();
+      context.restore();
+    }
+  },
+  draw: function(){
+    context.clearRect(0, 0, canvasTag.width, canvasTag.height);
+    Smile.body.draw();
+    Smile.mouth.draw();
+    Smile.eyes.draw();
+  },
+  animations: {
+    blocked: false,
+    blink: function(){
+      this.blocked = true;
+      var orgRightEyeHeight = Smile.eyes.rightEye.height;
+      var closing = true;
+      var changeValue = function(){
+        if(closing){
+          if(Smile.eyes.rightEye.height < (orgRightEyeHeight / 5)){
+            closing = false;
+            setTimeout(changeValue, 1000 / 60);
+          }else{
+            Smile.eyes.rightEye.height /= 1.1;
+            setTimeout(changeValue, 1000 / 60);
+            }
+        } else {
+          if((Smile.eyes.rightEye.height * 1.1) > orgRightEyeHeight){
+            Smile.eyes.rightEye.height = orgRightEyeHeight;
+            Smile.animations.blocked = false;
+          } else {
+            Smile.eyes.rightEye.height *= 1.1;
+            setTimeout(changeValue, 1000 / 60);
+          }
+        }
+      };
+      changeValue();
+    }
+  }
+}
+//Smile.draw();
+setInterval(Smile.draw, 1000 / 60);
+
+$(window).keyup(function(e){
+  if(!Smile.animations.blocked){
+    switch(e.which){
+      case 66:
+        Smile.animations.blink();
+    }
+  }
+});
+</script>
